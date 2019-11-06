@@ -1,0 +1,1 @@
+* * * * * /home/dodgemich/logger/jre1.8.0_191/bin/java -jar -DserialPort=/dev/ttyUSB0 /home/dodgemich/logger/temp-logger-task.jar
