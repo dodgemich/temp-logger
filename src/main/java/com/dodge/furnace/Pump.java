@@ -51,7 +51,7 @@ public class Pump {
 
 	private void pumpOn() {
 		try {
-			Process p = Runtime.getRuntime().exec("/home/dodgemich/logger/off.sh");
+			Process p = Runtime.getRuntime().exec("/home/dodgemich/logger/on.sh");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

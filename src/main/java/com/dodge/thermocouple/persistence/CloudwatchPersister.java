@@ -62,7 +62,7 @@ public class CloudwatchPersister {
 		cw.putMetricData(new PutMetricDataRequest().withNamespace("Furnace").withMetricData(state));
 
 		
-		long houseTemp = Math.round(temps.get(3)-3.0);
+		long houseTemp = Math.round(temps.get(3)-1.5);
 		MetricDatum ambient = new MetricDatum().withMetricName("Nest")
 				.withDimensions(new Dimension().withName("Resource").withValue("Ambient")).withUnit(StandardUnit.None)
 				.withValue(new Double(houseTemp)).withTimestamp(time);
