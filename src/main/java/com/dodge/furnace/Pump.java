@@ -42,7 +42,7 @@ public class Pump {
 
 	private void pumpOff() {
 		try {
-			Process p = Runtime.getRuntime().exec("/home/dodgemich/logger/off.sh");
+			Process p = Runtime.getRuntime().exec("/home/pi/temp-logger/off.sh");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -51,7 +51,7 @@ public class Pump {
 
 	private void pumpOn() {
 		try {
-			Process p = Runtime.getRuntime().exec("/home/dodgemich/logger/on.sh");
+			Process p = Runtime.getRuntime().exec("/home/pi/temp-logger/on.sh");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

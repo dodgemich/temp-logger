@@ -1,11 +1,5 @@
 package com.dodge.thermocouple.daemon;
 
-import java.util.GregorianCalendar;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import com.dodge.furnace.FurnaceReader;
 import com.dodge.furnace.Pump;
 import com.dodge.thermocouple.persistence.CloudwatchPersister;
 import com.dodge.thermocouple.reader.DataLoggerManager;
@@ -69,6 +63,8 @@ public class LoggerDaemon implements Runnable {
         LoggerDaemon d = new LoggerDaemon();        
 //        executor.scheduleAtFixedRate(d, (60-secs+2), 60, TimeUnit.SECONDS);
         d.run();  
+        //force exit, serial lib keeps alive
+        System.exit(0);
     }
 
 }

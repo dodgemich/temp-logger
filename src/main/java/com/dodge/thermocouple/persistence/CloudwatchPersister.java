@@ -39,40 +39,67 @@ public class CloudwatchPersister {
 		List<Double> temps = rdg.getTemps();
 		Date time = new Date();
 
-		MetricDatum flue = new MetricDatum().withMetricName("Temperature")
-				.withDimensions(new Dimension().withName("Resource").withValue("Flue")).withUnit(StandardUnit.None)
-				.withValue(temps.get(0)).withTimestamp(time);
-		MetricDatum tank = new MetricDatum().withMetricName("Temperature")
-				.withDimensions(new Dimension().withName("Resource").withValue("Tank")).withUnit(StandardUnit.None)
-				.withValue(temps.get(1)).withTimestamp(time);
+		MetricDatum flue = new MetricDatum()
+				.withMetricName("Temperature")
+				.withDimensions(new Dimension().withName("Resource").withValue("Flue"))
+				.withUnit(StandardUnit.None)
+				.withValue(temps.get(0))
+				.withTimestamp(time);
+		
+		
+		MetricDatum tank = new MetricDatum()
+				.withMetricName("Temperature")
+				.withDimensions(new Dimension().withName("Resource").withValue("Tank"))
+				.withUnit(StandardUnit.None)
+				.withValue(temps.get(1))
+				.withTimestamp(time);
 
-		MetricDatum manifold = new MetricDatum().withMetricName("Temperature")
-				.withDimensions(new Dimension().withName("Resource").withValue("Manifold")).withUnit(StandardUnit.None)
-				.withValue(temps.get(2)).withTimestamp(time);
+		MetricDatum manifold = new MetricDatum()
+				.withMetricName("Temperature")
+				.withDimensions(new Dimension().withName("Resource").withValue("Manifold"))
+				.withUnit(StandardUnit.None)
+				.withValue(temps.get(2))
+				.withTimestamp(time);
 
-		PutMetricDataResult res = cw
-				.putMetricData(new PutMetricDataRequest().withNamespace("Boiler").withMetricData(flue, tank, manifold));
-		System.out.println("PTR: " + res);
+		try{
+			PutMetricDataResult res = cw
+					.putMetricData(new PutMetricDataRequest()
+							.withNamespace("Boiler")
+							.withMetricData(flue, tank, manifold)
+							);
+		} catch(Exception e) {
+			System.out.println("Boiler " + e.getMessage());
+		}
 
 		double heating = temps.get(4) > 100 ? 1.0 : 0.0;
 		MetricDatum state = new MetricDatum().withMetricName("Nest")
 				.withDimensions(new Dimension().withName("Resource").withValue("State")).withUnit(StandardUnit.None)
 				.withValue(heating).withTimestamp(time);
-
-		cw.putMetricData(new PutMetricDataRequest().withNamespace("Furnace").withMetricData(state));
-
+		try {
+			cw.putMetricData(new PutMetricDataRequest().withNamespace("Furnace").withMetricData(state));
+		} catch (Exception e) {
+			System.out.println("Furnace " + e.getMessage());
+		}
 		
 		long houseTemp = Math.round(temps.get(3)-1.5);
-		MetricDatum ambient = new MetricDatum().withMetricName("Nest")
-				.withDimensions(new Dimension().withName("Resource").withValue("Ambient")).withUnit(StandardUnit.None)
-				.withValue(new Double(houseTemp)).withTimestamp(time);
+		MetricDatum ambient = new MetricDatum()
+				.withMetricName("Nest")
+				.withDimensions(new Dimension().
+						withName("Resource")
+						.withValue("Ambient"))
+				.withUnit(StandardUnit.None)
+				.withValue((double)(houseTemp))
+				.withTimestamp(time)
+				;
+		
 		MetricDatum outdoor = new MetricDatum().withMetricName("Thermometer")
 				.withDimensions(new Dimension().withName("Resource").withValue("outdoor")).withUnit(StandardUnit.None)
 				.withValue(outsideTemp()).withTimestamp(time);
-
-		cw.putMetricData(
-				new PutMetricDataRequest().withNamespace("Environment").withMetricData(ambient, outdoor));
-
+		try {
+			cw.putMetricData(new PutMetricDataRequest().withNamespace("Environment").withMetricData(ambient, outdoor));
+		} catch (Exception e) {
+			System.out.println("Env " + e.getMessage());
+		}
 		cw.shutdown();
 
 	}
@@ -176,14 +203,14 @@ public class CloudwatchPersister {
 
 	public static void main(String... strings) {
 		CloudwatchPersister p = new CloudwatchPersister();
-		// TemperatureReading r = new TemperatureReading();
-		// r.addTemperature(380.0);
-		// r.addTemperature(120.0);
-		// r.addTemperature(118.0);
-		// r.setTime(new Date());
-		// p.persist(r);
-
-		System.out.println(p.checkIot("boiler-restock"));
+		 TemperatureReading r = new TemperatureReading();
+		 r.addTemperature(420.0);
+		 r.addTemperature(150.0);
+		 r.addTemperature(146.0);
+		 r.addTemperature(71.4);
+		 r.addTemperature(75.5);
+		 r.setTime(new Date());
+		 p.persist(r);
 	}
 
 }

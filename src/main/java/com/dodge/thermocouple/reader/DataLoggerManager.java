@@ -8,15 +8,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.comm.CommPortIdentifier;
-import javax.comm.NoSuchPortException;
-import javax.comm.PortInUseException;
-import javax.comm.SerialPort;
-import javax.comm.UnsupportedCommOperationException;
-
 import com.dodge.thermocouple.reader.pojo.LoggerReading;
 import com.dodge.thermocouple.reader.pojo.MetaData;
 import com.dodge.thermocouple.reader.pojo.TemperatureReading;
+
+import com.fazecast.jSerialComm.SerialPort;
 
 /**
  * A class that handles the details of a serial connection. Reads from one
@@ -38,7 +34,7 @@ public class DataLoggerManager {// implements SerialPortEventListener,
         return is;
     }
 
-    private CommPortIdentifier portId;
+    
     private SerialPort sPort;
     private boolean open;
 
@@ -46,36 +42,37 @@ public class DataLoggerManager {// implements SerialPortEventListener,
         open = false;
     }
 
-    public void openConnection() throws NoSuchPortException, PortInUseException, IOException,
-            UnsupportedCommOperationException {
+    public void openConnection() throws IOException {
         // Enumeration e = CommPortIdentifier.getPortIdentifiers();
         // while(e.hasMoreElements()){
         // CommPortIdentifier i = (CommPortIdentifier) e.nextElement();
         // System.out.println(i.getName());
         // }
         // Obtain a CommPortIdentifier object for the port you want to open.
-        String port = "/dev/ttyUSB0";
+    	
+//    	
+    	String port = "/dev/ttyUSB0";
         System.out.println("Getting port");
         if (System.getProperty("serialPort") != null) {
             port = System.getProperty("serialPort");
             System.out.println("Overriding, port is :" + port);
         } 
-        System.out.println("Get identifier for "+port);
-        portId = CommPortIdentifier.getPortIdentifier(port);
-        System.out.println("Opening port");
-        sPort = (SerialPort) portId.open("SerialDemo", 30000);
+        
+        sPort = SerialPort.getCommPort(port);
+        sPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+        sPort.openPort();
+        System.out.println(sPort.isOpen());
         System.out.println("Port open");
         os = sPort.getOutputStream();
         is = sPort.getInputStream();
 
-        int timeout = 4000;
-        if (System.getProperty("serialTimeout") != null) {
-            timeout = Integer.parseInt(System.getProperty("serialTimeout"));
-            System.out.println("Overriding, timeout is :" + timeout);
-        }
+//        int timeout = 4000;
+//        if (System.getProperty("serialTimeout") != null) {
+//            timeout = Integer.parseInt(System.getProperty("serialTimeout"));
+//            System.out.println("Overriding, timeout is :" + timeout);
+//        }
 
-        sPort.enableReceiveTimeout(timeout);
-        // portId.addPortOwnershipListener(this);
+//        sPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 30000, 30000);
         open = true;
     }
 
@@ -83,7 +80,7 @@ public class DataLoggerManager {// implements SerialPortEventListener,
         try {
             System.out.println("Send Request");
             sendRequest("*B");
-
+  
             MetaData header = getMetaData();
 
             List<TemperatureReading> data = getBinaryData(header);
@@ -232,6 +229,9 @@ public class DataLoggerManager {// implements SerialPortEventListener,
                     rdg = new TemperatureReading();
                     count = 0;
                 }
+            } else {
+
+            	break;
             }
 
             // try {
@@ -242,7 +242,7 @@ public class DataLoggerManager {// implements SerialPortEventListener,
             // }
             val = instr.read();
         }
-
+        System.out.println("done reading");
         long startTime = md.getFirstReadingTime().getTime();
         for (int i = 0; i < result.size(); i++) {
             TemperatureReading curRdg = result.get(i);
@@ -270,9 +270,8 @@ public class DataLoggerManager {// implements SerialPortEventListener,
             } catch (IOException e) {
                 System.err.println(e);
             }
-
-            sPort.close();
-
+            sPort.closePort();
+            System.out.println("port closed");
         }
 
         open = false;
