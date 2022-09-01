@@ -80,8 +80,8 @@ public class CloudwatchPersister {
 		} catch (Exception e) {
 			System.out.println("Furnace " + e.getMessage());
 		}
-		
-		long houseTemp = Math.round(temps.get(3)-1.5);
+		//TODO - still needed?  - was -1.5
+		long houseTemp = Math.round(temps.get(3));
 		MetricDatum ambient = new MetricDatum()
 				.withMetricName("Nest")
 				.withDimensions(new Dimension().
