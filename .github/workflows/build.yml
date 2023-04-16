@@ -21,6 +21,10 @@ jobs:
         with:
           name: fat-jar
           path: target/temp-logger-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+      - name: foo
+        env:
+         foo: ${{ github.event }}
+        run:  echo $foo
   deploy:
     if: contains(github.event.pull_request.labels.*.name, 'bug') || contains(github.event.head_commit.message, '#deploy')
     runs-on: ubuntu-latest
