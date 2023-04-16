@@ -22,7 +22,7 @@ jobs:
           name: fat-jar
           path: target/temp-logger-0.0.1-SNAPSHOT-jar-with-dependencies.jar
   deploy:
-    if: ${{ github.event.label.name == 'bug' }}
+    if: contains(github.event.pull_request.labels.*.name, 'bug')  
     runs-on: ubuntu-latest
 
     steps:
