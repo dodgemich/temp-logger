@@ -23,7 +23,7 @@ jobs:
           path: target/temp-logger-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
   deploy:
-    if: contains(github.event.pull_request.labels.*.name, 'bug') || contains(github.event.head_commit.message, '#deploy') || contains(github.event.pull_request.head_commit.message, '#deploy')
+    if: contains(github.event.pull_request.labels.*.name, 'bug') || contains(github.event.head_commit.message, '#deploy') 
     runs-on: ubuntu-latest
 
     steps:
