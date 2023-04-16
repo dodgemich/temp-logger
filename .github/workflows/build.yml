@@ -28,4 +28,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run a one-line script
-      run: echo Hello, world PR!
+      run: echo Hello, world P1R!
