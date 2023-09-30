@@ -182,7 +182,7 @@ public class CloudwatchPersister {
 			JSONParser parser = new JSONParser();
 			JSONObject res = (JSONObject) parser.parse(body);
 			JSONArray obs = (JSONArray) res.get("obs");
-			JSONArray obsInner = (JSONArray) res.get(0);
+			JSONArray obsInner = (JSONArray) obs.get(0);
 
 			Object rawTemp = obsInner.get(7);
 			Double temp = null;
