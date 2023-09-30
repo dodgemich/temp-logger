@@ -164,7 +164,51 @@ public class CloudwatchPersister {
 		return res.getMessages().size() > 0 ? 0.5 : 0.0;
 	}
 
+
+
+
 	public Double outsideTemp()  {
+		OkHttpClient client = new OkHttpClient.Builder().followRedirects(true).followSslRedirects(true).build();
+		String token = System.getProperty("TEMPEST_TOKEN");
+		Request request = new Request.Builder().url("https://swd.weatherflow.com/swd/rest/observations/?device_id=235627&token="+token).get()
+				// .addHeader("accept", "application/geo+json")
+				.build();
+		Response response;
+
+		try {
+			response = client.newCall(request).execute();
+			String body = response.body().string();
+			
+			JSONParser parser = new JSONParser();
+			JSONObject res = (JSONObject) parser.parse(body);
+			JSONArray obs = (JSONArray) res.get("obs");
+			JSONArray obsInner = (JSONArray) res.get(0);
+
+			Object rawTemp = obsInner.get(7);
+			Double temp = null;
+			if (rawTemp instanceof Double) {
+				temp = (Double) rawTemp;
+			} else {
+				Long l = (Long) rawTemp;
+				temp = l.doubleValue();
+			}
+			
+			return temp * 9 / 5 + 32;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0.0;
+
+	}
+
+
+
+
+	public Double outsideTempWindy()  {
 		OkHttpClient client = new OkHttpClient.Builder().followRedirects(true).followSslRedirects(true).build();
 		Request request = new Request.Builder().url("https://node.windy.com/pois/stations/44.9262/-89.6266").get()
 				// .addHeader("accept", "application/geo+json")
