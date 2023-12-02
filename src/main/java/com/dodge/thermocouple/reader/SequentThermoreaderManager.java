@@ -26,9 +26,9 @@ public class SequentThermoreaderManager {
 		String stdout = IOUtils.toString(p.getInputStream());
 		Double c = Double.parseDouble(stdout);
 		Double f = (c * 9 / 5) + 32.0;
-        if(id.equals("4)")){
+        if(id.equals("4")){
             //house temp is off
-            f = f*.95;
+            f = f*.97;
         }
 		return Double.parseDouble(FORMAT.format(f));
 
