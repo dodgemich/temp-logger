@@ -28,7 +28,7 @@ public class SequentThermoreaderManager {
 		Double f = (c * 9 / 5) + 32.0;
         if(id.equals("4)")){
             //house temp is off
-            f = f*.96;
+            f = f*.95;
         }
 		return Double.parseDouble(FORMAT.format(f));
 
