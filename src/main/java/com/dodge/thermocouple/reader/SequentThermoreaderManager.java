@@ -22,7 +22,7 @@ public class SequentThermoreaderManager {
 	}
 
 	private Double getReading(String id) throws IOException {
-		Process p = new ProcessBuilder("smtc", "0", "read", id).start();
+		Process p = new ProcessBuilder("/usr/local/bin/smtc", "0", "read", id).start();
 		String stdout = IOUtils.toString(p.getInputStream());
 		Double c = Double.parseDouble(stdout);
 		Double f = (c * 9 / 5) + 32.0;
