@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 
 import org.apache.commons.io.IOUtils;
 
+import com.dodge.display.ScreenUpdater;
 import com.dodge.furnace.Pump;
 import com.dodge.thermocouple.persistence.CloudwatchPersister;
 import com.dodge.thermocouple.reader.SequentThermoreaderManager;
@@ -68,7 +69,8 @@ public class LoggerDaemon implements Runnable {
 			d.run();
 			System.exit(0);
 		} else {
-			//d.updateDisplay();
+			ScreenUpdater u = new ScreenUpdater();
+			u.execute();
 		}
 	}
 

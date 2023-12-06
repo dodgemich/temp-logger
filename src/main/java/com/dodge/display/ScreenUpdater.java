@@ -58,22 +58,22 @@ public class ScreenUpdater {
 	}
 	
 	
-    public void execute(Context pi4j) {
+    public void execute() {
         System.out.println("LCD demo started");
 
         //Create a Component, with amount of ROWS and COLUMNS of the device
         //LcdDisplay lcd = new LcdDisplay(pi4j); //2x16 is default
-        LcdDisplay lcd = new LcdDisplay(pi4j, 4, 20);
-
+        LcdDisplay lcd = new LcdDisplay(pi4j, 2, 16);
+        lcd.clearDisplay();
         // Write text to specific position
         lcd.displayLineOfText("Hello" , 0);
         lcd.displayLineOfText("World!", 1, 3);
 
 
 
-        lcd.clearDisplay();
+        //lcd.clearDisplay();
 
-        lcd.centerTextInLine("Hi", 0);
+        //lcd.centerTextInLine("Hi", 0);
 
 
     }
