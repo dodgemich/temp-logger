@@ -2,7 +2,7 @@ package com.dodge.display;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.io.IOUtils;
@@ -60,7 +60,7 @@ public class ScreenUpdater {
 	
 	
     public void execute() {
-        LocalDate date = LocalDate.now();
+    	LocalDateTime date = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
         String time = date.format(formatter);
         
