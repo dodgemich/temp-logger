@@ -19,14 +19,14 @@ import com.pi4j.plugin.pigpio.provider.spi.PiGpioSpiProvider;
 import com.pi4j.plugin.raspberrypi.platform.RaspberryPiPlatform;
 
 public class ScreenUpdater {
-	private Context pi4j;
+	private LcdDisplay lcd;
 	private static final DecimalFormat FORMAT = new DecimalFormat("0.0");
 
 	
 	public ScreenUpdater() {
 		PiGpio piGpio = PiGpio.newNativeInstance();
 
-		pi4j = Pi4J.newContextBuilder()
+		Context pi4j = Pi4J.newContextBuilder()
 				.noAutoDetect()
 				.add(new RaspberryPiPlatform() {
 					@Override
@@ -42,6 +42,9 @@ public class ScreenUpdater {
 						LinuxFsI2CProvider.newInstance()
 				)
 				.build();
+        lcd = new LcdDisplay(pi4j, 2, 16);
+        lcd.clearDisplay();
+        
 	}
 	
 	
@@ -66,9 +69,7 @@ public class ScreenUpdater {
         
         //Create a Component, with amount of ROWS and COLUMNS of the device
         //LcdDisplay lcd = new LcdDisplay(pi4j); //2x16 is default
-        LcdDisplay lcd = new LcdDisplay(pi4j, 2, 16);
-        lcd.clearDisplay();
-        
+
         
         Double flue;
         Double tank;
