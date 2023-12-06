@@ -63,14 +63,17 @@ public class LoggerDaemon implements Runnable {
 	}
 
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		LoggerDaemon d = new LoggerDaemon();
 		if (args.length == 0) {
 			d.run();
 			System.exit(0);
 		} else {
 			ScreenUpdater u = new ScreenUpdater();
-			u.execute();
+			while(true) {
+				u.execute();
+				Thread.sleep(5000);
+			}
 		}
 	}
 
