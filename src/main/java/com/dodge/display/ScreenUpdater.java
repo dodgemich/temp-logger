@@ -2,7 +2,8 @@ package com.dodge.display;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.io.IOUtils;
 
@@ -59,22 +60,30 @@ public class ScreenUpdater {
 	
 	
     public void execute() {
-        System.out.println("LCD demo started");
-
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss");
+        String time = date.format(formatter);
+        
         //Create a Component, with amount of ROWS and COLUMNS of the device
         //LcdDisplay lcd = new LcdDisplay(pi4j); //2x16 is default
         LcdDisplay lcd = new LcdDisplay(pi4j, 2, 16);
         lcd.clearDisplay();
-        // Write text to specific position
-        lcd.displayLineOfText("Hello" , 0);
-        lcd.displayLineOfText("World!", 1, 3);
-
-
-
-        //lcd.clearDisplay();
-
-        //lcd.centerTextInLine("Hi", 0);
-
+        
+        
+        Double flue;
+        Double tank;
+		try {
+			flue = getReading("1");
+			tank = getReading("2");
+			// Write text to specific position
+			lcd.displayLineOfText(time + " ~ Flue: "+flue  , 0);
+			lcd.displayLineOfText(time + " ~ Tank: "+tank  , 0);
+		} catch (IOException e) {
+			
+			lcd.displayLineOfText("Exception"  , 0);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     }
 
