@@ -76,8 +76,8 @@ public class ScreenUpdater {
 			flue = getReading("1");
 			tank = getReading("2");
 			// Write text to specific position
-			lcd.displayLineOfText(time + " ~ Flue: "+flue  , 0);
-			lcd.displayLineOfText(time + " ~ Tank: "+tank  , 1);
+			lcd.displayLineOfText("Flue: "+flue  , 0);
+			lcd.displayLineOfText("Tank: "+tank  , 1);
 		} catch (IOException e) {
 			
 			lcd.displayLineOfText("Exception"  , 0);
@@ -86,5 +86,5 @@ public class ScreenUpdater {
 		}
 
     }
-
+//FLUE: 123.4  TANK: 123.4
 }
