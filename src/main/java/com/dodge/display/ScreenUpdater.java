@@ -82,6 +82,7 @@ public class ScreenUpdater {
 			// Write text to specific position
 			lcd.displayLineOfText("Flue: "+flue + " (" + diff+")" , 0);
 			lcd.displayLineOfText("Tank: "+tank  , 1);
+		    priorFlue=flue;
 		} catch (IOException e) {
 			
 			lcd.displayLineOfText("Exception"  , 0);
@@ -89,7 +90,6 @@ public class ScreenUpdater {
 			e.printStackTrace();
 		}
 
-		priorFlue=flue;
 
     }
 //FLUE: 123.4  TANK: 123.4
