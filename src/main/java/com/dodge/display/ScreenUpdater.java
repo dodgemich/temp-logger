@@ -22,7 +22,8 @@ public class ScreenUpdater {
 	private LcdDisplay lcd;
 	private static final DecimalFormat FORMAT = new DecimalFormat("0.0");
 
-	
+	private Double priorFlue = 0.0;
+
 	public ScreenUpdater() {
 		PiGpio piGpio = PiGpio.newNativeInstance();
 
@@ -76,8 +77,10 @@ public class ScreenUpdater {
 		try {
 			flue = getReading("1");
 			tank = getReading("2");
+			Double diff = flue-priorFlue;
+			diff = Double.parseDouble(FORMAT.format(diff));
 			// Write text to specific position
-			lcd.displayLineOfText("Flue: "+flue  , 0);
+			lcd.displayLineOfText("Flue: "+flue + " (" + diff+")" , 0);
 			lcd.displayLineOfText("Tank: "+tank  , 1);
 		} catch (IOException e) {
 			
@@ -85,6 +88,8 @@ public class ScreenUpdater {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		priorFlue=flue;
 
     }
 //FLUE: 123.4  TANK: 123.4
