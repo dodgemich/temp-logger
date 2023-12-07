@@ -80,7 +80,7 @@ public class ScreenUpdater {
 			Double diff = flue-priorFlue;
 			diff = Double.parseDouble(FORMAT.format(diff));
 			// Write text to specific position
-			lcd.displayLineOfText("Flue: "+flue + " (" + diff+")" , 0);
+			lcd.displayLineOfText("Flue: "+flue + " " + diff , 0);
 			lcd.displayLineOfText("Tank: "+tank  , 1);
 		    priorFlue=flue;
 		} catch (IOException e) {
