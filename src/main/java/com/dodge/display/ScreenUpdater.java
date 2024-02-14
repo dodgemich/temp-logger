@@ -78,7 +78,8 @@ public class ScreenUpdater {
 		try {
 			flue = getReading("1");
 			tank = getReading("2");
-			System.out.println(flue + ":" +tank)
+			System.out.println(flue + ":" +tank);
+			
 			Double diff = flue-priorFlue;
 			diff = Double.parseDouble(FORMAT.format(diff));
 			// Write text to specific position
