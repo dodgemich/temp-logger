@@ -45,6 +45,8 @@ public class ScreenUpdater {
 				.build();
         lcd = new LcdDisplay(pi4j, 2, 16);
         lcd.clearDisplay();
+		lcd.displayLineOfText("Flue: ----", 0);
+		lcd.displayLineOfText("Tank: ----", 1);
         System.out.println("Display Cleared");
 	}
 	
@@ -79,7 +81,7 @@ public class ScreenUpdater {
 			flue = getReading("1");
 			tank = getReading("2");
 			System.out.println(flue + ":" +tank);
-			
+
 			Double diff = flue-priorFlue;
 			diff = Double.parseDouble(FORMAT.format(diff));
 			// Write text to specific position
