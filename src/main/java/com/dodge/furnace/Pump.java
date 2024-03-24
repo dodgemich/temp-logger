@@ -8,6 +8,7 @@ import com.amazonaws.services.cloudwatch.AmazonCloudWatch;
 import com.amazonaws.services.cloudwatch.AmazonCloudWatchClientBuilder;
 import com.amazonaws.services.cloudwatch.model.DescribeAlarmsRequest;
 import com.amazonaws.services.cloudwatch.model.MetricAlarm;
+import com.dodge.pump.PumpUpnp;
 
 public class Pump {
 	public void managePumpState() {
@@ -42,8 +43,9 @@ public class Pump {
 
 	private void pumpOff() {
 		try {
-			Process p = Runtime.getRuntime().exec("/home/pi/temp-logger/off.sh");
-		} catch (IOException e) {
+			PumpUpnp pump = new PumpUpnp();
+			pump.switchWemo("Radiant Pump", "0");
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -51,8 +53,9 @@ public class Pump {
 
 	private void pumpOn() {
 		try {
-			Process p = Runtime.getRuntime().exec("/home/pi/temp-logger/on.sh");
-		} catch (IOException e) {
+			PumpUpnp pump = new PumpUpnp();
+			pump.switchWemo("Radiant Pump", "1");
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
