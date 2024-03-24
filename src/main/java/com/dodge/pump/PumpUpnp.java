@@ -126,7 +126,7 @@ public class PumpUpnp {
 				String resp = new String(con.getInputStream().readAllBytes());
 				String friendlyName = resp.substring(resp.indexOf("<friendlyName>") + 14,
 						resp.indexOf("</friendlyName>"));
-				System.out.println(friendlyName);
+				//System.out.println(friendlyName);
 
 				try {
 					if (switchName.equals(friendlyName)) {
@@ -148,7 +148,7 @@ public class PumpUpnp {
 						postCon.getOutputStream().write(body.getBytes());
 
 						String postRes = new String(postCon.getInputStream().readAllBytes());
-						System.out.println(postRes);
+						//System.out.println(postRes);
 						return;
 
 					}
@@ -157,7 +157,7 @@ public class PumpUpnp {
 				}
 
 			} catch (Exception e) {
-				// e.printStackTrace();
+				 e.printStackTrace();
 			}
 		}
 	}
