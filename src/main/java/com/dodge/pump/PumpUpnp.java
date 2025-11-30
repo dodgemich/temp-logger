@@ -91,6 +91,7 @@ public class PumpUpnp {
 					response.append(responseLine.trim());
 				}
 				ObjectMapper mapper = new ObjectMapper();
+				System.out.printly("Linksys resp: "+response);
 				JSONObject result = mapper.readValue(response.toString(), JSONObject.class);
 				List respArr= (List)(result.get("responses"));
 				HashMap o= (HashMap)(respArr.get(0));
