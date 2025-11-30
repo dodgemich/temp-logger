@@ -101,6 +101,7 @@ public class PumpUpnp {
 					HashMap model = (HashMap)device.get("model");
 					String manufacturer = (String) model.get("manufacturer");
 					String type = (String) model.get("deviceType");
+					System.out.println(manufacturer + ":" + model+":"+type);
 					if(manufacturer != null && manufacturer.contains("Belkin")) {
 						List connections = (List)device.get("connections");
 						HashMap switchConn = (HashMap) connections.get(0);
@@ -116,6 +117,7 @@ public class PumpUpnp {
 		
 
 		for (String ip : switchIps) {
+
 			try {
 				URL url = new URL("http://" + ip + ":49153/setup.xml");
 				HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -127,7 +129,7 @@ public class PumpUpnp {
 				String friendlyName = resp.substring(resp.indexOf("<friendlyName>") + 14,
 						resp.indexOf("</friendlyName>"));
 				//System.out.println(friendlyName);
-
+				System.out.println(ip + ":"+friendlyName);
 				try {
 					if (switchName.equals(friendlyName)) {
 						URL post = new URL("http://" + ip + ":49153/upnp/control/basicevent1");
@@ -148,7 +150,7 @@ public class PumpUpnp {
 						postCon.getOutputStream().write(body.getBytes());
 
 						String postRes = new String(postCon.getInputStream().readAllBytes());
-						//System.out.println(postRes);
+						System.out.println("resp:"+postRes);
 						return;
 
 					}
